@@ -1,13 +1,14 @@
 ### IDE ###
-nbproject
-.vscode
-.idea
+nbproject/
+.vscode/
+.idea/
 
 ### Node ###
-node_modules
-.nyc_output
-coverage
-test-results.xml
+node_modules/
 
-### TSC ###
-dist/*
+### General ###
+*.log
+
+### Testing ###
+coverage/
+test-results.xml
