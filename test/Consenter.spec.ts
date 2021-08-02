@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import jsdomGlobal = require('jsdom-global')
 import { Consenter } from '../index'
+import Debug from '../src/modules/Debug'
 import Iframe from '../src/modules/Iframe'
 import YouTube from '../src/modules/Youtube'
 
@@ -172,5 +173,37 @@ describe('Consenter', function() {
         const result = document.getElementsByTagName('iframe')
 
         expect(result.length).to.equal(0)
+    })
+
+    it('should write to console log for debug module', (done) => {
+
+        window.Cookiebot = {
+            consent: {
+                marketing: false,
+                necessary: true,
+                preferences: false,
+                statistics: false
+            }
+        }
+
+        const timeoutId = setTimeout(() => {
+            done(new Error('Failed to restore handler'))
+        }, 100)
+
+        console.log = () => {
+            clearTimeout(timeoutId)
+            done()
+        }
+
+        const consenter = new Consenter()
+
+        consenter.addModule('necessary', new Debug())
+
+        consenter.enable()
+
+        /* Create custom event to mock cookieconsent function */
+        const event = new CustomEvent('CookiebotOnAccept')
+
+        window.dispatchEvent(event)
     })
 })
