@@ -33,6 +33,11 @@ export default class Consenter {
     }
 
     /**
+     * A reference to the bound function used by events.
+     */
+    protected boundHandler: () => void = this.onAcceptHandler.bind(this)
+
+    /**
      * Processes the consent decisions from cookiebot and enables
      * scripts based on the possible cookiebot categories.
      */
@@ -72,7 +77,12 @@ export default class Consenter {
          * Add the callback for cookiebot accept as per the API
          * https://www.cookiebot.com/en/manual-implementation/
          */
-        window.addEventListener('CookiebotOnAccept', this.onAcceptHandler.bind(this), false)
+        window.addEventListener('CookiebotOnAccept', this.boundHandler, false)
+
+        /**
+         * Add callback for decline
+         */
+        window.addEventListener('CookiebotOnDecline', this.boundHandler, false)
 
         /* Make a backup of the current function */
         if (window.CookiebotCallback_OnAccept) {
@@ -84,7 +94,7 @@ export default class Consenter {
          * accepted the cookies as per the API
          * https://www.cookiebot.com/en/manual-implementation/
          */
-        window.CookiebotCallback_OnAccept = this.onAcceptHandler.bind(this)
+        window.CookiebotCallback_OnAccept = this.boundHandler
     }
 
     /**
@@ -92,8 +102,9 @@ export default class Consenter {
      */
     public disable(): void {
 
-        /* Remove the listener */
-        window.removeEventListener('CookiebotOnAccept', this.onAcceptHandler.bind(this))
+        /* Remove the listeners */
+        window.removeEventListener('CookiebotOnAccept', this.boundHandler)
+        window.removeEventListener('CookiebotOnDecline', this.boundHandler)
 
         /* Restore to whatever the value was before */
         window.CookiebotCallback_OnAccept = this.oldOnAccept
