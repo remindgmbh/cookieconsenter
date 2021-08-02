@@ -24,6 +24,10 @@ export default class Consenter {
      */
     protected modules: Modules;
     /**
+     * A reference to the bound function used by events.
+     */
+    protected boundHandler: () => void;
+    /**
      * Processes the consent decisions from cookiebot and enables
      * scripts based on the possible cookiebot categories.
      */

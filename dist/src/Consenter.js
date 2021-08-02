@@ -14,6 +14,10 @@ var Consenter = /** @class */ (function () {
             preference: [],
             statistics: []
         };
+        /**
+         * A reference to the bound function used by events.
+         */
+        this.boundHandler = this.onAcceptHandler.bind(this);
     }
     /**
      * Processes the consent decisions from cookiebot and enables
@@ -53,7 +57,11 @@ var Consenter = /** @class */ (function () {
          * Add the callback for cookiebot accept as per the API
          * https://www.cookiebot.com/en/manual-implementation/
          */
-        window.addEventListener('CookiebotOnAccept', this.onAcceptHandler.bind(this), false);
+        window.addEventListener('CookiebotOnAccept', this.boundHandler, false);
+        /**
+         * Add callback for decline
+         */
+        window.addEventListener('CookiebotOnDecline', this.boundHandler, false);
         /* Make a backup of the current function */
         if (window.CookiebotCallback_OnAccept) {
             this.oldOnAccept = window.CookiebotCallback_OnAccept;
@@ -63,14 +71,15 @@ var Consenter = /** @class */ (function () {
          * accepted the cookies as per the API
          * https://www.cookiebot.com/en/manual-implementation/
          */
-        window.CookiebotCallback_OnAccept = this.onAcceptHandler.bind(this);
+        window.CookiebotCallback_OnAccept = this.boundHandler;
     };
     /**
      * Disable the event listeners.
      */
     Consenter.prototype.disable = function () {
-        /* Remove the listener */
-        window.removeEventListener('CookiebotOnAccept', this.onAcceptHandler.bind(this));
+        /* Remove the listeners */
+        window.removeEventListener('CookiebotOnAccept', this.boundHandler);
+        window.removeEventListener('CookiebotOnDecline', this.boundHandler);
         /* Restore to whatever the value was before */
         window.CookiebotCallback_OnAccept = this.oldOnAccept;
     };

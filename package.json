@@ -1,6 +1,6 @@
 {
     "name": "@remindgmbh/cookieconsenter",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "Wrapper for a custom CookeConsent implementation.",
     "author": "Hauke Schulz <h.schulz@remind.de>",
     "license": "BSD-3-Clause",
@@ -17,17 +17,17 @@
         "test": "nyc mocha"
     },
     "dependencies": {
-        "typescript": "^4.2.4"
+        "typescript": "^4.3.5"
     },
     "devDependencies": {
-        "@types/chai": "^4.2.18",
+        "@types/chai": "^4.2.21",
         "@types/jsdom-global": "^3.0.2",
-        "@types/mocha": "^8.2.2",
-        "@typescript-eslint/eslint-plugin": "^4.24.0",
-        "@typescript-eslint/parser": "^4.24.0",
+        "@types/mocha": "^8.2.3",
+        "@typescript-eslint/eslint-plugin": "^4.28.5",
+        "@typescript-eslint/parser": "^4.28.5",
         "chai": "^4.3.4",
-        "eslint": "^7.26.0",
-        "jsdom": "^16.5.3",
+        "eslint": "^7.32.0",
+        "jsdom": "^16.7.0",
         "jsdom-global": "^3.0.2",
         "mocha": "^8.4.0",
         "mocha-junit-reporter": "^2.0.0",
