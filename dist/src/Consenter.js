@@ -62,16 +62,6 @@ var Consenter = /** @class */ (function () {
          * Add callback for decline
          */
         window.addEventListener('CookiebotOnDecline', this.boundHandler, false);
-        /* Make a backup of the current function */
-        if (window.CookiebotCallback_OnAccept) {
-            this.oldOnAccept = window.CookiebotCallback_OnAccept;
-        }
-        /**
-         * Define the method called when the user loads the page and already has
-         * accepted the cookies as per the API
-         * https://www.cookiebot.com/en/manual-implementation/
-         */
-        window.CookiebotCallback_OnAccept = this.boundHandler;
     };
     /**
      * Disable the event listeners.
@@ -80,8 +70,6 @@ var Consenter = /** @class */ (function () {
         /* Remove the listeners */
         window.removeEventListener('CookiebotOnAccept', this.boundHandler);
         window.removeEventListener('CookiebotOnDecline', this.boundHandler);
-        /* Restore to whatever the value was before */
-        window.CookiebotCallback_OnAccept = this.oldOnAccept;
     };
     /**
      * This is the actual entry point to run the consenter.
